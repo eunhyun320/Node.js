@@ -1,0 +1,79 @@
+<!-- <!DOCTYPE html>
+<html>
+    <head>
+        <title>{{title}}</title>
+    </head>
+    <body>
+        <h1>회원관리 페이지</h1>
+    </body>
+</html> -->
+
+
+{% include "include/header.html" %}
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>회원관리</h1>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <h5 class="card-header d-flex justify-content-between align-items-center">
+            <form method="get" action="/member/">
+              <div class="input-group w-auto">
+                <input type="text" class="form-control" name="search_key" value="{{search_key}}"
+                  placeholder="검색어를 입력하세요." />
+                <button class="btn btn-sm btn-outline-secondary" type="submit">검색</button>
+              </div>
+            </form>
+          </h5>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr class="text-center">
+                  <th scope="col" class="col-1">번호</th>
+                  <th scope="col">아이디</th>
+                  <th scope="col" class="col-1">이름</th>
+                  <th scope="col" class="col-2">등록일</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% if (list != null) and (list != '') %}
+                  {% for item in list %}
+                    <tr class="text-center">
+                      <th scope="row">{{item.id}}</th>
+                      <td><a href="/member/view?&page={{page}}&id={{item.id}}&search_key={{search_key}}">{{item.userid}}</a></td>
+                      <td>{{item.name}}</td>
+                      <td>{{common.dateFormat(item.regdate)}}</td>
+                    </tr>
+                  {% endfor %}
+                {% else %}
+                  <tr class="text-center">
+                    <th colspan="4">데이타가 없습니다.</th>
+                  </tr>
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card-footer">
+            {{common.pageNavigation(10, page, pageSize, totalRecord, '/member/', '&search_key=' + search_key)|safe}}   <!-- 이거 동작시킬려면 app.js에 app.locals.common = common; 있어야함-->
+            <!--                 10 :  한 페이지당 나올 페이지 개수..? 화면 아래쪽에 있는 번호들 촤라락. 페이지 넘기는 그 부분 
+                             pageSize : 한 페이지에 나올 목록 개수
+                             /member/ : 넘어갈 페이지 링크(화면 아래 번호 촤라락 있는 부분 위에 마우스 올리면 넘어갈 링크 나옴)
+                             safe : 이거 안쓰면 화면에 html 코드 나옴
+                             '&search_key=' + search_key : 검색하고 다음 페이지 가도 검색어 유지됨-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======= Footer ======= -->
+{% include "include/footer.html" %}

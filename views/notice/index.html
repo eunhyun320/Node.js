@@ -1,0 +1,62 @@
+{% include "include/header.html" %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>공지사항</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <h5 class="card-header d-flex justify-content-between align-items-center">
+                        <form method="get" action="/notice/">
+                            <div class="input-group w-auto">
+                                <input type="text" class="form-control" name="search_key" value="{{search_key}}"
+                                    placeholder="검색어를 입력하세요." />
+                                <button class="btn btn-sm btn-outline-secondary" type="submit">검색</button>
+                            </div>
+                        </form>
+                        <div>
+                            <a href="/notice/register" class="btn btn-sm btn-outline-primary">등록</a>
+                        </div>
+                    </h5>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr class="text-center">
+                                    <th scope="col" class="col-1">번호</th>
+                                    <th scope="col">제목</th>
+                                    <th scope="col" class="col-1">작성자</th>
+                                    <th scope="col" class="col-1">조회수</th>
+                                    <th scope="col" class="col-2">등록일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in list %}
+                                <tr class="text-center">
+                                    <th scope="row">{{item.id}}</th>
+                                    <td><a href="/notice/view?&page={{page}}&id={{item.id}}&search_key={{search_key}}">{{item.title}}</a></td>
+                                    <td>{{item.name}}</td>
+                                    <td>{{item.viewcount}}</td>
+                                    <td>{{common.dateFormat(item.regdate)}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="card-footer">
+                        {{common.pageNavigation(10, page, pageSize, totalRecord, '/notice/', '&search_key=' + search_key)|safe}} 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ======= Footer ======= -->
+{% include "include/footer.html" %}

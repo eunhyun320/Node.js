@@ -1,0 +1,47 @@
+새로운 url 생기면 routers -> member.js에 먼저 만들어야함.
+처음페이지가 home.js
+
+<중간고사>
+라우터 모델 뷰 컨트롤러 만들면되는건데
+회원정보 리스트에서 보기, 수정, 삭제하는걸 라우터 모델 뷰 컨트롤러 만들면됨...
+회원정보 리스트 만들어주심... 
+
+1024 - 세션을 디비에 넣음
+1107 - 검색어
+
+과제
+삭제하면 검색어 날리고 리스트 첫 화면으로 가기
+수정 목록 이런 나머지 것들은 검색어 다 유지되야함
+
+1114 - 게시판 신규회원리스트
+
+1128 - 파일첨부
+
+<기말>
+파일첨부 -> 등록 수정 삭제
+
+create table notice
+
+(
+    id 			int auto_increment primary key,
+    fkmember	int not null references member(id),
+    title 		varchar(100) not null,
+    content		text,
+    filepath	varchar(100),
+    filename	varchar(100),
+    viewcount	int	default 0,
+    regdate		timestamp default current_timestamp
+);
+
+여기서 fkmember, title, content 는 loginUserInfo에 있는거로 넣어야함
+
+
+
+[기말]
+- 메인페이지 오른쪽에 공지사항
+0. 대시보드에 공지사항 넣기
+1. 공지사항 list(member랑 join 해야함)
+2. insert 하는 sql
+3. 보기(조회수올려야하고, 첨부파일 다운가능해야함)
+4. 수정(첨부파일 변경되면 기존파일은 삭제시켜야함)
+5. 삭제(파일 있으면 파일도 삭제해야함) common.js에 file_delete 활용

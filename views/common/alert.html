@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+    </head>
+    <body>
+        <script>
+            let msg = '{{msg}}';
+            let url = '{{url | safe}}';
+
+            if (msg != ''){   // 메세지 없이 페이지만 이동할 경우
+                alert(msg);
+            }
+
+            if (url != ''){
+                if (url == 'history_back'){     
+                    history.back();
+                } else{
+                    location.href = url;
+                }
+            }
+        </script>
+    </body>
+</html>

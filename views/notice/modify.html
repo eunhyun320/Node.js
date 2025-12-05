@@ -1,0 +1,108 @@
+
+{% include "include/header.html" %}
+
+<main id="main" class="main">
+
+	<div class="pagetitle">
+		<h1>공지사항</h1>
+	</div><!-- End Page Title -->
+
+	<section class="section">
+		<div class="row">
+			<div class="col-lg-12">
+
+				<form name="modifyFrm" id="modifyFrm" method="post" action="/notice/modify" enctype="multipart/form-data">
+					<input type="hidden" name="id" value="{{noticeData.id}}">
+					<input type="hidden" name="page" value="{{page}}">
+					<input type="hidden" name="search_key" value="{{search_key}}">
+					<input type="hidden" name="old_filepath" value="{{noticeData.filepath}}">
+					<input type="hidden" name="old_filename" value="{{noticeData.filename}}">
+
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">공지사항 수정</h5>
+							<div class="row mb-3">
+								<label for="title" class="col-sm-2 col-form-label">제목</label>
+								<div class="col-sm-10 input-group">
+									<input type="text" name="title" id="title" class="form-control" value="{{noticeData.title}}">
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="content" class="col-sm-2 col-form-label">내용</label>
+								<div class="col-sm-10 input-group">
+									<textarea name="content" id="content" class="form-control" style="height: 200px">{{noticeData.content}}</textarea>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="attach_file" class="col-sm-2 col-form-label">첨부파일</label>
+								<div class="col-sm-10 input-group">
+									<input type="file" class="form-control" name="attach_file" id="attach_file" multiple="true"/>
+								</div>
+							</div>
+
+							{% if noticeData.filename %}
+							<div class="row mb-3">
+								<label class="col-sm-2 col-form-label">현재첨부</label>
+								<div class="col-sm-10 input-group">
+									<a href="/{{noticeData.filepath}}" download="{{noticeData.filename}}">{{noticeData.filename}}</a>
+								</div>
+							</div>
+							{% endif %}
+
+						</div>
+
+						<div class="card-footer">
+							<div class="d-flex justify-content-center">
+								<a href="/notice/?page={{page}}&search_key={{search_key}}" class="btn btn-sm btn-outline-secondary ms-1">목록</a>
+								<button type="submit" class="btn btn-sm btn-outline-primary ms-1">수정</button>
+							</div>
+						</div>
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</section>
+
+	<script>
+		$(function () {
+			$('#modifyFrm').validate({
+				debug: false,
+				onkeyup: false,
+				submitHandler: function (f) {
+					f.submit();
+				},
+				rules: {
+					title: {
+						required: true,
+					},
+					content: {
+						required: true,
+					},
+				},
+				messages: {
+					title: {
+						required: "제목을 입력하세요.",
+					},
+					content: {
+						required: "내용을 입력하세요.",
+					},
+				},
+				errorElement: 'span',
+				errorPlacement: function (error, element) {
+					error.addClass('invalid-feedback');
+					element.closest('.input-group').append(error);
+				},
+				highlight: function (element, errorClass, validClass) {
+					$(element).addClass('is-invalid');
+				},
+				unhighlight: function (element, errorClass, validClass) {
+					$(element).removeClass('is-invalid');
+				}
+			});
+		});
+	</script>
+
+</main>
+
+{% include "include/footer.html" %}

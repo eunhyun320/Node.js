@@ -1,0 +1,121 @@
+{% include "include/header.html" %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>회원관리</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+          <div class="col col-12">
+            <form method="post" action="/member/modify" name="modifyFrm" id="modifyFrm">
+              <input type="hidden" name="id" value="{{viewData.id}}">
+              <input type="hidden" name="page" value="{{page}}">
+              <input type="hidden" name="search_key" value="{{search_key}}">
+              
+              <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                          <div class="mb-3">
+                              <label for="userid" class="form-label">회원 ID</label>
+                              <div class="form-control form-data">{{viewData.userid}}</div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                          <div class="mb-3 form-group">
+                              <label for="name" class="form-label">회원 이름</label>
+                              <div class="form-control form-data">
+                                  <input type="text" name="name" value="{{viewData.name}}" class="form-control" id="name">
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                          <div class="mb-3 form-group">
+                              <label for="passwd" class="form-label">비밀번호</label>
+                              <div class="form-control form-data">
+                                  <input type="password" name="passwd" class="form-control" id="passwd">
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3 form-group">
+                                <label for="passwd1" class="form-label">비밀번호</label>
+                                <div class="form-control form-data">
+                                    <input type="password" name="passwd1" class="form-control" id="passwd1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="card-footer d-flex justify-content-center">
+                      <a type="button" href="/member/?page={{page}}&search_key={{search_key}}" class="btn btn-outline-secondary btn-sm me-1">목록</a>
+                      <button type="submit" class="btn btn-outline-primary btn-sm me-1">수정</button>
+                  </div>
+              </div>
+            </form>
+          </div>
+      </div>
+    </section>
+
+  </main>
+  <script>
+    $(function () {
+        $('#modifyFrm').validate({
+            debug: false,
+            onkeyup: false,
+            submitHandler: function (f) {
+                f.submit();
+            },
+            rules: {
+                passwd1: {
+                    equalTo: '#passwd'
+                },
+                name: {
+                    required: true,
+                },
+            },
+            messages: {
+                passwd1: {
+                    equalTo: "입력한 비밀번호가 서로 일치하지 않습니다."
+                },
+                name: {
+                    required: "이름을 입력하세요.",
+                },
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+
+    $('#passwd').on('input', function() {
+      if ($(this).val().length > 0) {
+          $('#passwd1').rules('add', {
+              required: true,
+              messages: {
+                  required: "Password 확인을 입력하세요."
+              }
+          });
+      } else {
+          $('#passwd1').rules('remove', 'required');
+      }
+  });
+  </script>
+  <!-- ======= Footer ======= -->
+{% include "include/footer.html" %}

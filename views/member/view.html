@@ -1,0 +1,58 @@
+{% include "include/header.html" %}
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>회원관리</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+          <div class="col col-12">
+              <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col">
+                          <div class="mb-3">
+                              <label for="userid" class="form-label">회원 ID</label>
+                              <div class="form-control form-data">{{viewData.userid}}</div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                          <div class="mb-3">
+                              <label for="name" class="form-label">회원 이름</label>
+                              <div class="form-control form-data">{{viewData.name}}</div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                          <div class="mb-3">
+                              <label for="regdate" class="form-label">등록일</label>
+                              <div class="form-control form-data">{{common.dateFormat(viewData.regdate)}}</div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer d-flex justify-content-center">
+                      <a type="button" href="/member/?page={{page}}&search_key={{search_key}}" class="btn btn-outline-secondary btn-sm me-1">목록</a>
+                      <a type="button" href="/member/modify?page={{page}}&id={{viewData.id}}&search_key={{search_key}}" class="btn btn-outline-primary btn-sm me-1">수정</a>
+                      <a type="button" href="javascript:checkDelete();" class="btn btn-outline-danger btn-sm me-1">삭제</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </section>
+
+  </main>
+  <script>
+    function checkDelete() {
+        if(confirm('정말 삭제할까요?')) {
+            location.href = '/member/delete?id={{viewData.id}}&page={{page}}';
+        }
+    }
+  </script>
+  <!-- ======= Footer ======= -->
+{% include "include/footer.html" %}

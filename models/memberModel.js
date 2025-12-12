@@ -115,7 +115,7 @@ const deleteMember = async (id) => {
 
 const getTodayMember = async () => {
     try {
-        const sql = "select id, userid, name, regdate from member order by id desc limit 5";   // 이미 정렬된 기본키(id)를 가져와서 정렬하는게 빠름
+        const sql = "select id, userid, name, DATE_FORMAT(regdate, '%Y-%m-%d') AS regdate from member order by id desc limit 5";   // 이미 정렬된 기본키(id)를 가져와서 정렬하는게 빠름
         
 
         const result = await db.runSql(sql);

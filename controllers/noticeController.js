@@ -42,7 +42,7 @@ const register_proc = async(req, res) => {
             let {title, content}  = req.body; 
             let {filepath, filename} = ['',''];
 
-            if(req.files[0] != null) {   // 첨부파일 필수 아님
+            if(req.files && req.files[0] != null) {   // 첨부파일 필수 아님
                 // 'uploads/notice/' + req.files[0].originalname : 원래 파일명
                 // filepath : 파일경로
                 filename = 'uploads/notice/' + req.files[0].originalname
@@ -53,16 +53,12 @@ const register_proc = async(req, res) => {
                 
                 console.log(filename);
                 console.log(filepath);
+            }
 
-                // Model 저장 -> 이거 해야함
-                model.insertNotice(loginUserInfo.id, title, content, filepath, filename);
-                
-
-                
-                /* 학교 공지사항 코드 확인*/
-
-                common.alertAndGo(res, '저장되었습니다.', '/notice');   // 저장된거는 uploads 폴더에 들어가있음. 웹에서 이거 볼려면 localhost/uploads/noitce/파일명
-            }  
+            // Model 저장
+            await model.insertNotice(loginUserInfo.id, title, content, filepath, filename);
+            
+            common.alertAndGo(res, '저장되었습니다.', '/notice');   // 저장된거는 uploads 폴더에 들어가있음. 웹에서 이거 볼려면 localhost/uploads/noitce/파일명
         }
     } catch (error) {
         res.status(500).send('500 Error:'+ error);
@@ -162,6 +158,10 @@ const deleteNotice = (async(req, res) => {
             let noticeData = await model.getNoticeData(id);
             
             if(noticeData.fkmember == loginUserInfo.id) {
+                // 첨부파일 삭제
+                if (noticeData.filepath && noticeData.filepath != '') {
+                    common.fileDelete(noticeData.filepath);
+                }
                 await model.deleteNotice(id);
                 common.alertAndGo(res, '삭제되었습니다.', '/notice/?page='+page+'&search_key='+encodeURIComponent(search_key));
             } else {
@@ -169,9 +169,25 @@ const deleteNotice = (async(req, res) => {
             }
         }
     } catch (error) {
+        // console.log(error);
         res.status(500).send('500 Error:'+ error);
     }
 });
+
+const getTodayNotice = async (req, res) => {
+    try {
+        let loginUserInfo = common.checkLogin(req, res);
+        if(loginUserInfo != null) {
+            const list = await model.getTodayNotice();
+
+            res.json(list);  
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
 
 module.exports = {
     list,
@@ -180,5 +196,6 @@ module.exports = {
     view,
     modify,
     modify_proc,
-    deleteNotice
+    deleteNotice,
+    getTodayNotice
 }

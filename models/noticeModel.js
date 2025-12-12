@@ -94,6 +94,29 @@ const updateNotice = async (id, title, content, filepath, filename) => {
     }
 }
 
+const getTodayNotice = async () => {
+    try {
+        const sql = `
+            SELECT 
+                n.id,
+                n.title,
+                m.name,
+                DATE_FORMAT(n.regdate, '%Y-%m-%d') AS regdate
+            FROM notice n
+            JOIN member m ON n.fkmember = m.id
+            ORDER BY n.regdate DESC
+            LIMIT 5
+        `;
+        
+        const result = await db.runSql(sql);
+        
+        return result;
+    } catch (error) {
+        throw "sql error" + error;
+    }
+};
+
+
 module.exports = {
     insertNotice,
     getNoticeTotalCount,
@@ -101,5 +124,7 @@ module.exports = {
     getNoticeData,
     updateViewCount,
     deleteNotice,
-    updateNotice
+    updateNotice,
+    getTodayNotice
+
 }

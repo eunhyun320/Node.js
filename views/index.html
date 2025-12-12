@@ -62,9 +62,7 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
       <div class="col-lg-6"> <!--col-lg-12 : 화면 가로 쭉 줄 / 6 : 반만-->
         <div class="card">
           <div class="card-body">
@@ -85,11 +83,14 @@
         </div>
       </div>
     </div>
+
+    
   </section>
 
 </main>
 <script>
   $(document).ready(function () {
+    // 신규회원 리스트
     $.ajax({
       url: "/member/getTodayMember",
       type: "get",
@@ -98,11 +99,11 @@
       //data: "", 
       async: true,
       success: function (res) {
-        //console.log(res);   // 개발자도구 콘솔에 찍힘
+        console.log(res);   // 개발자도구 콘솔에 찍힘
         if(res != null) {
           for(i=0; i<res.length; i++){
             // let html = "<tr> <td>" + res[i].userid + "</td> <td></td> <td></td> </tr>"    // 이거보다 아래처럼 쓰는게 나음
-            let html = `<tr> <td>${res[i].title}</td> <td>${res[i].name}</td> <td>${res[i].regdate}</td> </tr>`;
+            let html = `<tr> <td><a href="/member/view?id=${res[i].id}">${res[i].userid}</a></td> <td>${res[i].name}</td> <td>${res[i].regdate}</td> </tr>`;
 
             $('#member_table').append(html);  // 위에 tbody에 넣어주기
           }
@@ -113,8 +114,9 @@
       }
     });
 
+    // 공지사항
     $.ajax({
-      url: "/notice/getTodayMember",
+      url: "/notice/getTodayNotice",
       type: "get",
       cache: false,
       dataType: "json",
@@ -125,7 +127,7 @@
         if(res != null) {
           for(i=0; i<res.length; i++){
             // let html = "<tr> <td>" + res[i].userid + "</td> <td></td> <td></td> </tr>"    // 이거보다 아래처럼 쓰는게 나음
-            let html = `<tr> <td>${res[i].userid}</td> <td>${res[i].name}</td> <td>${res[i].regdate}</td> </tr>`;
+            let html = `<tr> <td><a href="/notice/view?id=${res[i].id}">${res[i].title}</a></td> <td>${res[i].name}</td> <td>${res[i].regdate}</td> </tr>`;
 
             $('#notice_table').append(html);  // 위에 tbody에 넣어주기
           }

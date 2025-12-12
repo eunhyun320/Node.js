@@ -24,6 +24,7 @@ router.get("/delete", controller.deleteNotice);
 router.post('/register', upload.array("attach_file"), controller.register_proc);
 router.post('/modify', upload.array("attach_file"), controller.modify_proc);
                                    // attach_file : register.html의 첨부파일 name이 들어감
+router.get('/getTodayNotice', controller.getTodayNotice);
 
 
 

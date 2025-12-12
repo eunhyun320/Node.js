@@ -151,7 +151,7 @@ const pageNavigation = (printSize, page, pageSize, totalcount, url, params) => {
 
 // 파일 첨부할때
 const fileFilter = (req, file, callbackfunciton) => {
-    const filetypes = /.jpg|.png|.gif|.zip|.bmp/  // 허용하는 파일 형태들
+    const filetypes = /.jpg|.png|.gif|.zip|.bmp|.jpeg|.pdf/  // 허용하는 파일 형태들
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
 
     if (extname) {

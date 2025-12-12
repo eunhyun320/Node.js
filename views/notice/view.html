@@ -51,7 +51,7 @@
                         <div class="d-flex justify-content-center">
                             <a type="button" href="/notice/?page={{page}}&search_key={{search_key}}" class="btn btn-outline-secondary btn-sm me-1">목록</a>
                             {% if loginUserInfo.id == noticeData.fkmember %}
-                            <a type="button" href="/notice/modify?page={{page}}&id={{noticeData.id}}&search_key={{search_key}}" class="btn btn-sm btn-outline-primary ms-1">수정</a>
+                            <a type="button" href="/notice/modify?page={{page}}&id={{noticeData.id}}&search_key={{search_key}}" class="btn btn-outline-primary btn-sm me-1">수정</a>
                             <a type="button" href="javascript:checkDelete();" class="btn btn-outline-danger btn-sm me-1">삭제</a>
                             {% endif %}
                         </div>
@@ -65,3 +65,11 @@
 </main>
 
 {% include "include/footer.html" %}
+
+<script>
+function checkDelete() {
+    if (confirm('정말 삭제하시겠습니까?')) {
+        location.href = '/notice/delete?page={{page}}&id={{noticeData.id}}&search_key={{search_key}}';
+    }
+}
+</script>
